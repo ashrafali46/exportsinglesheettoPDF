@@ -1,6 +1,4 @@
-// Simple function to send Weekly Status Sheets as a PDF to contacts listed on the "Contacts" 
-// sheet in the Master Project Doc.
-// activeSheet is exported as a .pdf and attached to the amil.
+// Simple function to send Weekly Status Sheets to contacts listed on the "Contacts" sheet in the MPD.
 
 // Load a menu item called "Project Admin" with a submenu item called "Send Status"
 // Running this, sends the currently open sheet, as a PDF attachment
@@ -12,12 +10,17 @@ function onOpen() {
 function exportSomeSheets() {
   // Set the Active Spreadsheet so we don't forget
   var originalSpreadsheet = SpreadsheetApp.getActive();
-
-  // Some Customisation
-  var subject = "Weekly Status Sheet"; // One day we'll get smart and include the project name dynamically
+  
+  // Set the message to attach to the email.
   var message = "Please see attached"; // Could make it a pop-up perhaps, but out of wine today
-  // var project = "Project"; // Placeholder
-  // var date = "Date"; // Placeholder
+  
+  // Get Project Name from Cell A1
+  var projectname = originalSpreadsheet.getRange("A1:A1").getValues(); 
+  // Get Reporting Period from Cell B3
+  var period = originalSpreadsheet.getRange("B3:B3").getValues(); 
+  // Construct the Subject Line
+  var subject = projectname + " - Weekly Status Sheet - " + period;
+
       
   // Get contact details from "Contacts" sheet and construct To: Header
   // Would be nice to include "Name" as well, to make contacts look prettier, one day.
